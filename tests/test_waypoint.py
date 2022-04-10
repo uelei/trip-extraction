@@ -1,9 +1,9 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import pytest
 from pydantic import ValidationError
 
-from trip_extraction.model import Trip, Waypoint
+from trip_extraction.model import Waypoint
 
 
 def test_waypoint_model_valid():
@@ -73,16 +73,3 @@ def test_waypoint_model_invalid_timestamp():
             "type": "value_error.datetime",
         }
     ]
-
-
-def test_trip_model_valid():
-    now = datetime.now()
-    now_str = now.isoformat()
-    after = now + timedelta(minutes=4)
-    start_wp = Waypoint(timestamp=now_str, lat=10.231, lng=34.987712)
-
-    end_wp = Waypoint(timestamp=after, lat=10.231, lng=34.967712)
-
-    trip = Trip(start=start_wp, end=end_wp)
-
-    assert trip.distance == 2191

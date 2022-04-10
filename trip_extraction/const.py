@@ -1,8 +1,6 @@
-from geopy.distance import geodesic as GD
+from geopy.distance import distance
 
-# from geopy.distance import great_circle as GRC
-
-DISTANCE_FORMULA = GD
+DISTANCE_FORMULA = distance
 
 
 RADIUS_AREA = 40
