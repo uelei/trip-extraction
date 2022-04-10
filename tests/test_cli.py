@@ -34,7 +34,7 @@ def test_cli_running_sample_data(mock_write_output_file):
 def test_cli_running_empty_file():
 
     result = runner.invoke(
-        app, ["../data/waypoints.json", "--output", "test.json"]
+        app, ["data/waypoints.json", "--output", "test.json"]
     )
 
     assert result.exit_code == 2

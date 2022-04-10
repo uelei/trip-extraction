@@ -13,4 +13,4 @@ def test_trip_model_valid():
 
     trip = Trip(start=start_wp, end=end_wp)
 
-    assert trip.distance == 2191
+    assert int(trip.distance) == 2191

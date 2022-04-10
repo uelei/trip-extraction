@@ -12,9 +12,9 @@ def calculate_distance_between_two_waypoints(
 
     distance = DISTANCE_FORMULA(
         (point_a.lat, point_a.lng), (point_b.lat, point_b.lng)
-    ).meters
+    ).km
 
-    return int(distance)
+    return distance * 1000
 
 
 def calculate_speed(distance: int, time: int) -> float:

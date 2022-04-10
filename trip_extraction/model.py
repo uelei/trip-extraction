@@ -53,19 +53,20 @@ class Trip(BaseModel):
             self.start, self.end
         )
 
-    def update_end_waypoint(self, waypoint: Waypoint) -> None:
-
+    def update_distance_by_waypoint(self, waypoint: Waypoint) -> None:
         self.distance += calculate_distance_between_two_waypoints(
             self.end, waypoint
         )
 
+    def update_end_waypoint(self, waypoint: Waypoint) -> None:
+        self.update_distance_by_waypoint(waypoint)
         self.end = waypoint
 
     def to_dict(self) -> Dict[str, Any]:
         return {
             "start": self.start.to_dict(),
             "end": self.end.to_dict(),
-            "distance": self.distance,
+            "distance": int(self.distance),
         }
 
 
@@ -73,7 +74,6 @@ class Trip(BaseModel):
 class Car:
     trips: List[Trip] = field(default_factory=list)
     last_recorded_point: Optional[Waypoint] = None
-    _in_trip: bool = False
 
     def validate_waypoint_from_last_position(self, waypoint: Waypoint) -> bool:
 
@@ -110,8 +110,6 @@ class Car:
             logger.warning("waypoint ignored jump waypoint identified")
             return
 
-        self.last_recorded_point = waypoint
-
         if distance > RADIUS_AREA:
             logger.debug(f"movement of {distance} recorded.")
             if not last_trip:
@@ -119,6 +117,7 @@ class Car:
                 self.trips.append(
                     Trip(start=self.last_recorded_point, end=waypoint)
                 )
+                self.last_recorded_point = waypoint
                 return
 
             if (
@@ -126,7 +125,10 @@ class Car:
             ).total_seconds() > IDLE_TIME_MAX:
 
                 self.trips.append(Trip(start=waypoint, end=waypoint))
+                self.last_recorded_point = waypoint
                 return
 
             logger.debug("update end waypoint")
             last_trip.update_end_waypoint(waypoint)
+
+        self.last_recorded_point = waypoint
