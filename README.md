@@ -5,13 +5,13 @@ Project to extract trips from a list of Waypoints
 
 The trip extraction uses the following logic:
 
-A trip is considered ended when a moving vehicle remains within a circle of 20 meters radius for longer than 5 minutes.
-A trip is considered started when the vehicle moves outside the circle of 20 meters radius around its rest position.
-If the change in distance is more than 10 km per minute, the waypoint "jumps" and should be ignored.
+- A trip is considered ended when a moving vehicle remains within a circle of 20 meters radius for longer than 5 minutes.
+- A trip is considered started when the vehicle moves outside the circle of 20 meters radius around its rest position.
+- If the change in distance is more than 10 km per minute, the waypoint "jumps" and should be ignored.
 
 ### Install
 
-Python version used was 3.10.2
+Python version used was 3.10.2  
 Install all dependencies using poetry
 
 ```shell
@@ -20,7 +20,7 @@ poetry install
 ```
 
 
-### Usage
+### Help
 
 ```shell
 python trip-extraction.py --help
@@ -44,9 +44,15 @@ Options:
   --help                          Show this message and exit.
 ````
 
+## Usage
+
+```shell
+python trip-extraction.py data/waypoints.json
+
+```
 
 
-### Project code checks
+## Project code checks
 
 - poetry
   - pre-commit
@@ -70,7 +76,7 @@ isort....................................................................Passed
 
 
 
-### Tests
+### Tests and coverage
 ```shell
 pytest --cov=trip_extraction
 =================================================================================== test session starts ====================================================================================
