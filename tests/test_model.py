@@ -22,7 +22,11 @@ def test_waypoint_model_invalid_lat():
             timestamp=datetime.now().isoformat(), lat=100.231, lng=24.987712
         )
     assert exc_info.value.errors() == [
-        {"loc": ("lat",), "msg": "latitude invalid", "type": "value_error"}
+        {
+            "loc": ("lat",),
+            "msg": "Invalid value for latitude accepted values are > -90 and < 90",
+            "type": "value_error.invalidlatitude",
+        }
     ]
 
 
@@ -32,7 +36,11 @@ def test_waypoint_model_invalid_lng():
             timestamp=datetime.now().isoformat(), lat=10.231, lng=224.987712
         )
     assert exc_info.value.errors() == [
-        {"loc": ("lng",), "msg": "longitude invalid", "type": "value_error"}
+        {
+            "loc": ("lng",),
+            "msg": "Invalid value for longitude accepted values are > -180 and < 180",
+            "type": "value_error.invalidlongitude",
+        }
     ]
 
 
@@ -42,8 +50,16 @@ def test_waypoint_model_invalid_lat_lng():
             timestamp=datetime.now().isoformat(), lat=100.231, lng=224.987712
         )
     assert exc_info.value.errors() == [
-        {"loc": ("lat",), "msg": "latitude invalid", "type": "value_error"},
-        {"loc": ("lng",), "msg": "longitude invalid", "type": "value_error"},
+        {
+            "loc": ("lat",),
+            "msg": "Invalid value for latitude accepted values are > -90 and < 90",
+            "type": "value_error.invalidlatitude",
+        },
+        {
+            "loc": ("lng",),
+            "msg": "Invalid value for longitude accepted values are > -180 and < 180",
+            "type": "value_error.invalidlongitude",
+        },
     ]
 
 
